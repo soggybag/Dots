@@ -27,29 +27,37 @@ class DotsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    // Creates initial dots and stores them in array
     func setup() {
-        for i in 0 ..< numberOfDots {
-            
-            let spacing: CGFloat = frame.width / CGFloat(numberOfDots)
-            
-            let x = CGFloat(i) * spacing // ???
-            let y = frame.height / 2 - (dotSize / 2)
-            let rect = CGRect(x: x, y: y, width: dotSize, height: dotSize)
-            let dot = UIView(frame: rect)
+        for _ in 0 ..< numberOfDots {
+            let dot = UIView()
             dot.backgroundColor = UIColor.red
             dot.layer.cornerRadius = dotSize / 2
             addSubview(dot)
             array.append(dot)
         }
     }
+    
+    // This method sets the size and position of dots within this view!
+    func layoutDots() {
+        for i in 0 ..< array.count {
+            let spacing: CGFloat = frame.width / CGFloat(numberOfDots)
+            let x = CGFloat(i) * spacing + (spacing / 2) - (dotSize / 2)
+            let y = frame.height / 2 - (dotSize / 2)
+            let rect = CGRect(x: x, y: y, width: dotSize, height: dotSize)
+            array[i].frame = rect
+        }
+    }
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
+    
+    // When this view is drawn we need to layout the dots. 
+    // This will handle changes constraints might make to size of this view.
     override func draw(_ rect: CGRect) {
         // Drawing code
+        layoutDots()
     }
-    */
+    
 
 }
 
